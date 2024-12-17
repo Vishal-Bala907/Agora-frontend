@@ -24,13 +24,16 @@ export const Basics = () => {
   // Fetch token from the backend
   const fetchToken = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/generateToken", {
-        params: {
-          channelName: channel,
-          uid,
-          role,
-        },
-      });
+      const response = await axios.get(
+        "https://agora-backend-8oxp.onrender.com/generateToken",
+        {
+          params: {
+            channelName: channel,
+            uid,
+            role,
+          },
+        }
+      );
       setToken(response.data.token);
       console.log("Token fetched:", response.data.token);
     } catch (error) {
