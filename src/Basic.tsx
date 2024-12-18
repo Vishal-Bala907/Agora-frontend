@@ -19,7 +19,7 @@ export const Basics = () => {
   const [channel, setChannel] = useState("admin");
   const [token, setToken] = useState(""); // Token starts empty
   const [role, setRole] = useState("publisher"); // Role: publisher or subscriber
-  const [uid, setUid] = useState(0); // Default UID
+  const [uid, setUid] = useState("0"); // Default UID
 
   // Fetch token from the backend
   const fetchToken = async () => {
@@ -102,7 +102,7 @@ export const Basics = () => {
               value={channel}
             />
             <input
-              onChange={(e) => setUid(Number(e.target.value))}
+              onChange={(e) => setUid(e.target.value)}
               placeholder="<Your UID (optional)>"
               value={uid}
             />
