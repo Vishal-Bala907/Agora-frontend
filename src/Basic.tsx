@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {
+import AgoraRTC, {
   LocalUser,
   RemoteUser,
   useIsConnected,
@@ -21,21 +21,21 @@ export const Basics = () => {
   const [role, setRole] = useState("publisher"); // Role: publisher or subscriber
   const [uid, setUid] = useState("0"); // Default UID
 
+  AgoraRTC.setLogLevel(0);
+
   // Fetch token from the backend
   const fetchToken = async () => {
     try {
-      const response = await axios.get(
-        "https://agora-backend-8oxp.onrender.com/generateToken",
-        {
-          params: {
-            channelName: channel,
-            uid,
-            role,
-          },
-        }
-      );
-      setToken(response.data.token);
-      console.log("Token fetched:", response.data.token);
+      const response = await axios.get("http://localhost:3000/generateToken", {
+        params: {
+          channelName: channel,
+          uid,
+          role,
+        },
+      });
+      const TOKEN = await response.data.token;
+      setToken(TOKEN);
+      console.log("Token fetched:", TOKEN);
     } catch (error) {
       console.error("Error fetching token:", error);
       alert("Failed to fetch token. Check backend server.");
@@ -49,7 +49,10 @@ export const Basics = () => {
   };
 
   // Agora hooks
-  useJoin({ appid: appId, channel: channel, token: token || null }, calling);
+  useJoin(
+    { appid: appId, channel: channel, token: token || null, uid: uid },
+    calling
+  );
 
   // Local user tracks
   const [micOn, setMic] = useState(true);
